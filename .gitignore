@@ -1,0 +1,49 @@
+# --- Web (Vite / Node) ---
+web/node_modules/
+web/dist/
+web/.env
+web/.env.local
+web/.env.*.local
+web/*.log
+web/npm-debug.log*
+web/.vite/
+
+# --- API (Maven / Java) ---
+/target/
+api/target/
+!api/.mvn/wrapper/maven-wrapper.jar
+!api/**/src/main/**/target/
+!api/**/src/test/**/target/
+api/.kotlin
+
+### IntelliJ IDEA (API module) ###
+api/.idea
+/.idea
+
+### Eclipse ###
+api/.apt_generated
+api/.classpath
+api/.factorypath
+api/.project
+api/.settings/
+api/.springBeans
+api/.sts4-cache/
+
+### NetBeans ###
+api/nbproject/private/
+api/nbbuild/
+api/dist/
+api/nbdist/
+api/.nb-gradle/
+api/build/
+!api/**/src/main/**/build/
+!api/**/src/test/**/build/
+
+### VS Code ###
+api/.vscode/
+
+### Mac OS ###
+.DS_Store
+
+### Cursor IDE ###
+.cursor/
