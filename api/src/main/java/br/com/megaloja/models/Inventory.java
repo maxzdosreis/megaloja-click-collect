@@ -40,8 +40,10 @@ public class Inventory implements Serializable {
     private Product product;
 
     @Column(nullable = false)
+    @Builder.Default
     private Integer quantity = 0;
 
     @Column(name = "reserved_quantity", nullable = false)
+    @Builder.Default
     private Integer reservedQuantity = 0;
 }

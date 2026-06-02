@@ -37,5 +37,6 @@ public class Product implements Serializable {
     private String imageUrl;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean active = true;
 }

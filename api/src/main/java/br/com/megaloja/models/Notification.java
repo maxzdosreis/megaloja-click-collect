@@ -38,6 +38,7 @@ public class Notification implements Serializable {
     private LocalDateTime sentAt;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean isRead = false;
 
     @PrePersist
