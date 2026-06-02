@@ -36,5 +36,6 @@ public class Store implements Serializable {
     private String state;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean active = true;
 }
