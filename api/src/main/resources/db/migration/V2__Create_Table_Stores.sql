@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS stores (
+    id bigint PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(100) NOT NULL,
+    active BOOLEAN NOT NULL DEFAULT TRUE
+);
