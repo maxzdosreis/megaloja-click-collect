@@ -1,6 +1,5 @@
 package br.com.megaloja.dtos;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
