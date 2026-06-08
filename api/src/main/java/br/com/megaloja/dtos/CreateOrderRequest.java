@@ -17,13 +17,7 @@ public record CreateOrderRequest(
         Long storeId,
 
         @NotEmpty(message = "Os itens do pedido são obrigatórios")
-        List<CreateOrderItemRequest> items,
-
-        @NotNull(message = "O valor total é obrigatório")
-        @Positive(message = "O valor total deve ser positivo")
-        BigDecimal totalAmount,
-
-        LocalDateTime pickupDeadline
+        List<CreateOrderItemRequest> items
 ){
 }
 
