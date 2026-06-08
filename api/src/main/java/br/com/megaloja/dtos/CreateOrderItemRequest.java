@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 public record CreateOrderItemRequest(
 
-        @NotBlank(message = "O ID do produto é obrigatório")
+        @NotNull(message = "O ID do produto é obrigatório")
         Long productId,
 
         @NotNull(message = "A quantidade é obrigatória")
