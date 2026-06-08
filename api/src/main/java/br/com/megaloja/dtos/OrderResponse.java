@@ -7,11 +7,13 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@JsonPropertyOrder({"id", "customerId", "storeId", "status", "pickupCode", "totalAmount", "pickupDeadline", "createdAt", "updatedAt", "items"})
+@JsonPropertyOrder({"id", "customerId", "customerName", "storeId", "storeName", "status", "pickupCode", "totalAmount", "pickupDeadline", "createdAt", "updatedAt", "items"})
 public record OrderResponse(
         Long id,
         Long customerId,
+        String customerName,
         Long storeId,
+        String storeName,
         OrderStatus status,
         String pickupCode,
         BigDecimal totalAmount,
