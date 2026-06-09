@@ -6,38 +6,33 @@ import br.com.megaloja.dtos.UpdateInventoryRequest;
 import br.com.megaloja.models.Inventory;
 import br.com.megaloja.models.Product;
 import br.com.megaloja.models.Store;
+import br.com.megaloja.repositories.ProductRepository;
+import br.com.megaloja.repositories.StoreRepository;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
-public interface InventoryMapper {
+public abstract class InventoryMapper {
 
-    @Mapping(target = "store", expression = "java(mapStore(dto.storeId()))")
-    @Mapping(target = "product", expression = "java(mapProduct(dto.productId()))")
-    Inventory toEntity(CreateInventoryRequest dto);
+    @Autowired
+    protected StoreRepository storeRepository;
+
+    @Autowired
+    protected ProductRepository productRepository;
+
+    @Mapping(target = "store", expression = "java(storeRepository.getReferenceById(dto.storeId()))")
+    @Mapping(target = "product", expression = "java(productRepository.getReferenceById(dto.productId()))")
+    public abstract Inventory toEntity(CreateInventoryRequest dto);
 
     @Mapping(target = "storeId", source = "store.id")
     @Mapping(target = "productId", source = "product.id")
-    InventoryResponse toResponse(Inventory inventory);
+    public abstract InventoryResponse toResponse(Inventory inventory);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateFromDto(UpdateInventoryRequest dto, @MappingTarget Inventory entity);
-
-    default Store mapStore(Long id) {
-        if (id == null) return null;
-        Store s = new Store();
-        s.setId(id);
-        return s;
-    }
-
-    default Product mapProduct(Long id) {
-        if (id == null) return null;
-        Product p = new Product();
-        p.setId(id);
-        return p;
-    }
+    public abstract void updateFromDto(UpdateInventoryRequest dto, @MappingTarget Inventory entity);
 }
 

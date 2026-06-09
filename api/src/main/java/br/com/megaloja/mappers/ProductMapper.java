@@ -4,14 +4,12 @@ import br.com.megaloja.dtos.CreateProductRequest;
 import br.com.megaloja.dtos.ProductResponse;
 import br.com.megaloja.dtos.UpdateProductRequest;
 import br.com.megaloja.models.Product;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
+	@Mapping(target = "active", constant = "true")
 	Product toEntity(CreateProductRequest request);
 
 	ProductResponse toResponse(Product product);

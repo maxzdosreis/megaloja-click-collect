@@ -25,8 +25,8 @@ public abstract class OrderMapper {
     @Autowired
     protected StoreRepository storeRepository;
 
-    @Mapping(target = "customer", expression = "java(mapUser(dto.customerId()))")
-    @Mapping(target = "store", expression = "java(store)")
+    @Mapping(target = "customer", expression = "java(userRepository.getReferenceById(dto.customerId()))")
+    @Mapping(target = "store", expression = "java(storeRepository.getReferenceById(dto.storeId()))")
     @Mapping(target = "items", source = "items")
     public abstract Order toEntity(CreateOrderRequest dto);
 
