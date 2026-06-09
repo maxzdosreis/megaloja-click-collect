@@ -70,6 +70,7 @@ public class Order implements Serializable {
         this.updatedAt = LocalDateTime.now();
     }
 
+    // Utilizar esse método quando for adicionar um produto em uma Order já existente
     public void addItem(OrderItem item) {
         items.add(item);
         item.setOrder(this);
