@@ -3,8 +3,6 @@ package br.com.megaloja.mappers;
 import br.com.megaloja.dtos.CreateOrderItemRequest;
 import br.com.megaloja.dtos.OrderItemResponse;
 import br.com.megaloja.models.OrderItem;
-import br.com.megaloja.models.Product;
-import br.com.megaloja.repositories.OrderRepository;
 import br.com.megaloja.repositories.ProductRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,7 +14,7 @@ public abstract class OrderItemMapper {
     @Autowired
     protected ProductRepository productRepository;
 
-    @Mapping(target = "product", expression = "java(productRepository.getReferenceById(dto.getProductId()))")
+    @Mapping(target = "product", expression = "java(productRepository.getReferenceById(dto.productId()))")
     @Mapping(target = "order", ignore = true)
     public abstract OrderItem toEntity(CreateOrderItemRequest dto);
 
@@ -24,5 +22,3 @@ public abstract class OrderItemMapper {
     @Mapping(target = "orderId", source = "order.id")
     public abstract OrderItemResponse toResponse(OrderItem item);
 }
-
-
