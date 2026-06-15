@@ -30,7 +30,7 @@ public class StoreSpecification {
     }
 
     private static Specification<Store> isActive(Boolean active) {
-        return (root, query, cb) -> active == null || !active
-                ? null : cb.greaterThan(root.get("active"), 0);
+        return (root, query, cb) -> active == null
+                ? null : cb.equal(root.get("active"), active);
     }
 }
