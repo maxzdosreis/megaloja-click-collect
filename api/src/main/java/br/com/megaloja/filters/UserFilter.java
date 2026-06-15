@@ -16,6 +16,6 @@ public class UserFilter {
 
     private String email;
 
-    private UserRole role;
+    private String role;
 
 }
