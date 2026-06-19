@@ -2,10 +2,12 @@ package br.com.megaloja.handler;
 
 import br.com.megaloja.dtos.ErrorResponse;
 import br.com.megaloja.exceptions.BusinessException;
+import br.com.megaloja.exceptions.InvalidTokenException;
 import br.com.megaloja.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -38,6 +40,18 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErrorResponse handleBusinessException(BusinessException ex, HttpServletRequest request) {
         return buildResponse(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse handleInvalidTokenException(InvalidTokenException ex, HttpServletRequest request) {
+        return buildResponse(HttpStatus.UNAUTHORIZED, ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse handleAuthenticationException(AuthenticationException ex, HttpServletRequest request) {
+        return buildResponse(HttpStatus.UNAUTHORIZED, "Credenciais inválidas", request);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
