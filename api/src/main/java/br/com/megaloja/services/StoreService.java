@@ -3,6 +3,7 @@ package br.com.megaloja.services;
 import br.com.megaloja.dtos.CreateStoreRequest;
 import br.com.megaloja.dtos.StoreResponse;
 import br.com.megaloja.dtos.UpdateStoreRequest;
+import br.com.megaloja.exceptions.BusinessException;
 import br.com.megaloja.exceptions.ResourceNotFoundException;
 import br.com.megaloja.filters.StoreFilter;
 import br.com.megaloja.mappers.StoreMapper;
@@ -26,6 +27,9 @@ public class StoreService {
 
     @Transactional
     public StoreResponse create(CreateStoreRequest request) {
+        if (storeRepository.existsByName(request.name())) {
+            throw new BusinessException("Já existe uma loja cadastrada com o nome: " + request.name());
+        }
         Store store = storeMapper.toEntity(request);
         store = storeRepository.save(store);
         return storeMapper.toResponse(store);
@@ -52,7 +56,10 @@ public class StoreService {
     @Transactional
     public void delete(Long id) {
         Store store = findEntityById(id);
-        storeRepository.delete(store);
+        if (!store.getActive()) {
+            throw new ResourceNotFoundException("Loja não encontrada com id: " + id);
+        }
+        storeRepository.disableStore(id);
     }
 
     protected Store findEntityById(Long id) {

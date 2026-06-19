@@ -3,6 +3,7 @@ package br.com.megaloja.services;
 import br.com.megaloja.dtos.CreateProductRequest;
 import br.com.megaloja.dtos.ProductResponse;
 import br.com.megaloja.dtos.UpdateProductRequest;
+import br.com.megaloja.exceptions.BusinessException;
 import br.com.megaloja.exceptions.ResourceNotFoundException;
 import br.com.megaloja.filters.ProductFilter;
 import br.com.megaloja.mappers.ProductMapper;
@@ -26,6 +27,9 @@ public class ProductService {
 
     @Transactional
     public ProductResponse create(CreateProductRequest request) {
+        if (productRepository.existsByName(request.name())) {
+            throw new BusinessException("Já existe um produto cadastrado com o nome: " + request.name());
+        }
         Product product = productMapper.toEntity(request);
         product = productRepository.save(product);
         return productMapper.toResponse(product);
@@ -52,7 +56,10 @@ public class ProductService {
     @Transactional
     public void delete(Long id) {
         Product product = findEntityById(id);
-        productRepository.delete(product);
+        if (!product.getActive()) {
+            throw new ResourceNotFoundException("Produto não encontrado com id: " + id);
+        }
+        productRepository.disableProduct(id);
     }
 
     protected Product findEntityById(Long id) {

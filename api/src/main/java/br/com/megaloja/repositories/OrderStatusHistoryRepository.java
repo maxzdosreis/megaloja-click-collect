@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface OrderStatusHistoryRepository extends JpaRepository<OrderStatusHistory, Long> {
 
     Page<OrderStatusHistory> findByOrderIdOrderByCreatedAtAsc(Long orderId, Pageable pageable);
+
+    void deleteByOrderId(Long orderId);
 }

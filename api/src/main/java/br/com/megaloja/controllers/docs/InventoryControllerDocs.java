@@ -1,5 +1,6 @@
 package br.com.megaloja.controllers.docs;
 
+import br.com.megaloja.dtos.CreateInventoryRequest;
 import br.com.megaloja.dtos.InventoryResponse;
 import br.com.megaloja.dtos.UpdateInventoryRequest;
 import br.com.megaloja.filters.InventoryFilter;
@@ -13,6 +14,13 @@ import org.springframework.http.ResponseEntity;
 
 @Tag(name = "Inventário", description = "Consulta e atualização do estoque por loja e produto")
 public interface InventoryControllerDocs {
+
+    @Operation(summary = "Criar item de inventário", description = "Cria um registro de estoque para um produto em uma loja")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Item de inventário criado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos")
+    })
+    ResponseEntity<InventoryResponse> create(CreateInventoryRequest request);
 
     @Operation(summary = "Listar inventário", description = "Retorna lista paginada do estoque geral com suporte a filtros")
     @ApiResponses({
@@ -42,4 +50,11 @@ public interface InventoryControllerDocs {
             @ApiResponse(responseCode = "404", description = "Estoque não encontrado")
     })
     ResponseEntity<InventoryResponse> updateStock(Long storeId, Long productId, UpdateInventoryRequest request);
+
+    @Operation(summary = "Excluir item de inventário", description = "Remove um registro de estoque pelo ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Item de inventário excluído com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Item não encontrado")
+    })
+    ResponseEntity<Void> delete(Long id);
 }

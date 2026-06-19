@@ -1,6 +1,7 @@
 package br.com.megaloja.controllers;
 
 import br.com.megaloja.controllers.docs.InventoryControllerDocs;
+import br.com.megaloja.dtos.CreateInventoryRequest;
 import br.com.megaloja.dtos.InventoryResponse;
 import br.com.megaloja.dtos.UpdateInventoryRequest;
 import br.com.megaloja.filters.InventoryFilter;
@@ -11,8 +12,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +29,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class InventoryController implements InventoryControllerDocs {
 
     private final InventoryService inventoryService;
+
+    @PostMapping
+    public ResponseEntity<InventoryResponse> create(@RequestBody @Valid CreateInventoryRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(inventoryService.create(request));
+    }
 
     @GetMapping
     public ResponseEntity<Page<InventoryResponse>> findAll(InventoryFilter filter,
@@ -48,5 +57,11 @@ public class InventoryController implements InventoryControllerDocs {
                                                          @PathVariable Long productId,
                                                          @RequestBody @Valid UpdateInventoryRequest request) {
         return ResponseEntity.ok(inventoryService.updateStock(storeId, productId, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        inventoryService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
