@@ -12,7 +12,9 @@ import br.com.megaloja.models.Order;
 import br.com.megaloja.models.OrderItem;
 import br.com.megaloja.models.enums.OrderStatus;
 import br.com.megaloja.repositories.InventoryRepository;
+import br.com.megaloja.repositories.NotificationRepository;
 import br.com.megaloja.repositories.OrderRepository;
+import br.com.megaloja.repositories.OrderStatusHistoryRepository;
 import br.com.megaloja.specifications.OrderSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,6 +40,12 @@ public class OrderService {
 
     @Autowired
     private OrderStatusHistoryService orderStatusHistoryService;
+
+    @Autowired
+    private OrderStatusHistoryRepository orderStatusHistoryRepository;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
 
     @Transactional
     public OrderResponse create(CreateOrderRequest request) {
@@ -82,6 +90,8 @@ public class OrderService {
     @Transactional
     public void delete(Long id) {
         Order order = findEntityById(id);
+        orderStatusHistoryRepository.deleteByOrderId(id);
+        notificationRepository.deleteByOrderId(id);
         orderRepository.delete(order);
     }
 

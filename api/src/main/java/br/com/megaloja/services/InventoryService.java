@@ -1,5 +1,6 @@
 package br.com.megaloja.services;
 
+import br.com.megaloja.dtos.CreateInventoryRequest;
 import br.com.megaloja.dtos.InventoryResponse;
 import br.com.megaloja.dtos.UpdateInventoryRequest;
 import br.com.megaloja.exceptions.ResourceNotFoundException;
@@ -22,6 +23,13 @@ public class InventoryService {
 
     @Autowired
     private InventoryMapper inventoryMapper;
+
+    @Transactional
+    public InventoryResponse create(CreateInventoryRequest request) {
+        Inventory inventory = inventoryMapper.toEntity(request);
+        inventory = inventoryRepository.save(inventory);
+        return inventoryMapper.toResponse(inventory);
+    }
 
     public InventoryResponse findById(Long id) {
         Inventory inventory = findEntityById(id);
