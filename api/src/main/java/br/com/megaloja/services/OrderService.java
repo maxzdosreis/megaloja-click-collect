@@ -102,7 +102,7 @@ public class OrderService {
 
     private void validateStockAndReserve(Long storeId, List<OrderItem> items) {
         for (OrderItem item : items) {
-            Inventory inventory = inventoryRepository.findByStoreIdAndProductId(storeId, item.getProduct().getId())
+            Inventory inventory = inventoryRepository.findByStoreIdAndProductIdWithLock(storeId, item.getProduct().getId())
                     .orElseThrow(() -> new BusinessException(
                             "Produto " + item.getProduct().getId() + " não disponível nesta loja"));
 
