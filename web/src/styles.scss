@@ -1,1 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+$theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$green-palette,
+  ),
+  typography: (
+    plain-family: 'Inter, sans-serif',
+  ),
+  density: (
+    scale: 0,
+  ),
+));
+
+:root {
+  --color-primary: #2e7d32;
+  --color-primary-dark: #1b5e20;
+  --color-primary-light: #4caf50;
+  --color-bg: #fafafa;
+  --color-text: #212121;
+  --color-text-secondary: #616161;
+  --color-card-bg: #ffffff;
+  --color-error: #d32f2f;
+}
+
+html, body {
+  height: 100dvh;
+  margin: 0;
+  font-family: Inter, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  @include mat.all-component-themes($theme);
+}
