@@ -1,0 +1,78 @@
+<div class="login-wrapper">
+  <mat-card class="login-card">
+    <mat-card-content>
+      <div class="login-header">
+        <span class="brand">MegaLoja</span>
+        <span class="subtitle">Click & Collect</span>
+      </div>
+
+      <mat-divider class="divider"></mat-divider>
+
+      <h2 class="form-title">
+        {{ isRegisterMode() ? 'Criar sua conta' : 'Faça seu login' }}
+      </h2>
+
+      @if (errorMessage()) {
+        <div class="error-banner">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form">
+        @if (isRegisterMode()) {
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nome</mat-label>
+            <input matInput formControlName="name" placeholder="Seu nome" autocomplete="name" />
+            @if (name?.hasError('required')) {
+              <mat-error>O nome é obrigatório</mat-error>
+            }
+          </mat-form-field>
+        }
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" placeholder="seu@email.com" autocomplete="email" />
+          @if (email?.hasError('required')) {
+            <mat-error>O email é obrigatório</mat-error>
+          }
+          @if (email?.hasError('email')) {
+            <mat-error>Informe um email válido</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Senha</mat-label>
+          <input matInput formControlName="password" type="password" placeholder="Mínimo 6 caracteres" autocomplete="current-password" />
+          @if (password?.hasError('required')) {
+            <mat-error>A senha é obrigatória</mat-error>
+          }
+          @if (password?.hasError('minlength')) {
+            <mat-error>A senha deve ter no mínimo 6 caracteres</mat-error>
+          }
+        </mat-form-field>
+
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          class="full-width submit-btn"
+          [disabled]="form.invalid || loading()"
+        >
+          @if (loading()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            {{ isRegisterMode() ? 'Cadastrar' : 'Entrar' }}
+          }
+        </button>
+      </form>
+
+      <div class="toggle-mode">
+        <span>{{ isRegisterMode() ? 'Já tem conta?' : 'Não tem conta?' }}</span>
+        <button mat-button color="primary" type="button" (click)="toggleMode()">
+          {{ isRegisterMode() ? 'Faça login' : 'Cadastre-se' }}
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
