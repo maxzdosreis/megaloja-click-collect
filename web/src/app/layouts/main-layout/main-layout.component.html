@@ -1,0 +1,45 @@
+<mat-toolbar color="primary" class="toolbar">
+  <a routerLink="/home" class="brand">MegaLoja</a>
+  <span class="spacer"></span>
+  <button
+    mat-icon-button
+    [matBadge]="cartService.itemsCount()"
+    matBadgeColor="accent"
+    matBadgeSize="small"
+    [matMenuTriggerFor]="cartMenu"
+    aria-label="Carrinho"
+  >
+    <mat-icon>shopping_cart</mat-icon>
+  </button>
+  <mat-menu #cartMenu="matMenu" xPosition="before" class="cart-menu">
+    <div class="cart-preview">
+      @if (cartService.cartItems().length === 0) {
+        <span class="empty-cart">Carrinho vazio</span>
+      } @else {
+        @for (item of cartService.cartItems(); track item.product.id) {
+          <div class="cart-item">
+            <span class="item-name">{{ item.product.name }}</span>
+            <span class="item-qty">x{{ item.quantity }}</span>
+          </div>
+        }
+        <mat-divider></mat-divider>
+        <div class="cart-total">
+          <span>Total: {{ cartService.cartItems().length }} item(ns)</span>
+        </div>
+      }
+    </div>
+  </mat-menu>
+  <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="Usuário">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <mat-menu #userMenu="matMenu" xPosition="before">
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Sair</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+<main class="main-content">
+  <router-outlet />
+</main>
