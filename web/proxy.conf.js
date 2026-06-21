@@ -1,8 +1,8 @@
 module.exports = {
-  '/api/v1/auth/*': {
+  '/api/v1/**': {
     target: 'http://localhost:8080',
     secure: false,
-    pathRewrite: { '^/api/v1/auth': '/auth' },
+    pathRewrite: { '^/api/v1': '' },
     logLevel: 'debug',
   },
 };
