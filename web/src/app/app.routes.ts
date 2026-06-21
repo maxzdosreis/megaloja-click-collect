@@ -8,15 +8,26 @@ export const routes: Routes = [
       import('./features/auth/login.component').then(c => c.LoginComponent),
   },
   {
-    path: 'home',
-    loadComponent: () =>
-      import('./features/auth/login.component').then(c => c.LoginComponent),
-    canActivate: [authGuard],
-  },
-  {
     path: '',
-    redirectTo: '/login',
-    pathMatch: 'full',
+    loadComponent: () =>
+      import('./layouts/main-layout/main-layout.component').then(
+        c => c.MainLayoutComponent
+      ),
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'home',
+        loadComponent: () =>
+          import('./features/store/vitrine/vitrine.component').then(
+            c => c.VitrineComponent
+          ),
+      },
+      {
+        path: '',
+        redirectTo: '/home',
+        pathMatch: 'full',
+      },
+    ],
   },
   {
     path: '**',

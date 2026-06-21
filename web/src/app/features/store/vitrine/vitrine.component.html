@@ -1,0 +1,78 @@
+<section class="banner">
+  <div class="banner-content">
+    <mat-icon class="banner-icon">local_offer</mat-icon>
+    <div class="banner-text">
+      <h1>Compre online, retire na loja</h1>
+      <p>Escolha seus produtos e retire sem filas</p>
+    </div>
+  </div>
+</section>
+
+<section class="categories">
+  <h2 class="section-title">Categorias</h2>
+  <div class="categories-list">
+    @for (cat of categories; track cat.label) {
+      <button
+        class="category-chip"
+        [class.active]="selectedCategory() === cat.label"
+        (click)="filterByCategory(cat.label)"
+      >
+        <mat-icon>{{ cat.icon }}</mat-icon>
+        <span>{{ cat.label }}</span>
+      </button>
+    }
+    @if (selectedCategory()) {
+      <button class="clear-filter" (click)="clearFilter()">
+        <mat-icon>close</mat-icon>
+        Limpar
+      </button>
+    }
+  </div>
+</section>
+
+<section class="products">
+  <h2 class="section-title">
+    {{ selectedCategory() ? selectedCategory() : 'Produtos' }}
+  </h2>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <mat-icon class="spinner-icon">hourglass_empty</mat-icon>
+      <span>Carregando produtos...</span>
+    </div>
+  } @else {
+    <div class="products-grid">
+      @for (product of filteredProducts(); track product.id) {
+        <mat-card class="product-card" appearance="outlined">
+          <div class="product-image">
+            <img
+              [src]="product.imageUrl || 'https://placehold.co/280x200/eee/999?text=Sem+Imagem'"
+              [alt]="product.name"
+              loading="lazy"
+            />
+          </div>
+          <mat-card-content class="product-info">
+            <h3 class="product-name">{{ product.name }}</h3>
+            <p class="product-price">{{ product.price | currency:'BRL' }}</p>
+          </mat-card-content>
+          <mat-card-actions class="product-actions">
+            <button
+              mat-flat-button
+              color="primary"
+              class="add-btn"
+              (click)="addToCart(product)"
+            >
+              <mat-icon>add_shopping_cart</mat-icon>
+              Adicionar
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      } @empty {
+        <div class="empty-state">
+          <mat-icon>inventory_2</mat-icon>
+          <span>Nenhum produto encontrado</span>
+        </div>
+      }
+    </div>
+  }
+</section>
