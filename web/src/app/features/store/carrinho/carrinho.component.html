@@ -1,0 +1,109 @@
+<div class="cart-page">
+  <header class="cart-header">
+    <button mat-icon-button (click)="goBack()" aria-label="Voltar">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>
+      Meu Carrinho
+      @if (cartService.itemsCount() > 0) {
+        <span class="item-count">({{ cartService.itemsCount() }})</span>
+      }
+    </h1>
+  </header>
+
+  @if (cartService.cartItems().length === 0) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">shopping_cart</mat-icon>
+      <h2>Seu carrinho está vazio</h2>
+      <p>Adicione produtos na vitrine para começar</p>
+      <button mat-flat-button color="primary" routerLink="/home">
+        <mat-icon>storefront</mat-icon>
+        Ver Produtos
+      </button>
+    </div>
+  } @else {
+    <div class="cart-layout">
+      <div class="cart-items">
+        @for (item of cartService.cartItems(); track item.product.id) {
+          <div class="cart-item">
+            <div class="item-image">
+              <img
+                [src]="item.product.imageUrl || 'https://placehold.co/80x80/eee/999?text=Sem+Imagem'"
+                [alt]="item.product.name"
+                loading="lazy"
+              />
+            </div>
+            <div class="item-details">
+              <span class="item-name">{{ item.product.name }}</span>
+              <span class="item-price">{{ item.product.price | currency:'BRL' }}</span>
+            </div>
+            <div class="item-actions">
+              <div class="quantity-selector">
+                <button
+                  mat-icon-button
+                  type="button"
+                  class="qty-btn"
+                  (click)="decreaseQty(item.product.id, item.quantity)"
+                  aria-label="Diminuir quantidade"
+                >
+                  <mat-icon>remove</mat-icon>
+                </button>
+                <span class="qty-value">{{ item.quantity }}</span>
+                <button
+                  mat-icon-button
+                  type="button"
+                  class="qty-btn"
+                  (click)="increaseQty(item.product.id, item.quantity)"
+                  aria-label="Aumentar quantidade"
+                >
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+              <button
+                mat-icon-button
+                type="button"
+                class="remove-btn"
+                (click)="removeItem(item.product.id)"
+                aria-label="Remover item"
+              >
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+          </div>
+          <mat-divider class="item-divider"></mat-divider>
+        }
+      </div>
+
+      <div class="cart-summary">
+        <mat-card class="summary-card" appearance="outlined">
+          <mat-card-content>
+            <h2 class="summary-title">Resumo do Pedido</h2>
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span class="summary-value">{{ subtotal() | currency:'BRL' }}</span>
+            </div>
+            <div class="summary-row">
+              <span>Retirada</span>
+              <span class="summary-value delivery-free">Grátis</span>
+            </div>
+            <mat-divider class="summary-divider"></mat-divider>
+            <div class="summary-row total-row">
+              <span>Total</span>
+              <span class="summary-value total-value">{{ total() | currency:'BRL' }}</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <button
+          mat-flat-button
+          color="primary"
+          class="checkout-btn"
+          disabled
+        >
+          Continuar para Entrega
+        </button>
+        <span class="checkout-hint">Em breve</span>
+      </div>
+    </div>
+  }
+</div>

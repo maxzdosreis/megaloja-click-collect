@@ -23,6 +23,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'carrinho',
+        loadComponent: () =>
+          import('./features/store/carrinho/carrinho.component').then(
+            c => c.CarrinhoComponent
+          ),
+      },
+      {
         path: '',
         redirectTo: '/home',
         pathMatch: 'full',
