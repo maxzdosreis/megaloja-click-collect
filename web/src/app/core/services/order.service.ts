@@ -4,6 +4,14 @@ import { Observable } from 'rxjs';
 import { CreateOrderRequest } from '../models/create-order-request';
 import { OrderResponse } from '../models/order-response';
 
+export interface OrderPage {
+  content: OrderResponse[];
+  totalElements: number;
+  totalPages: number;
+  number: number;
+  size: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class OrderService {
   private readonly http = inject(HttpClient);
@@ -14,5 +22,11 @@ export class OrderService {
 
   getOrderById(id: number): Observable<OrderResponse> {
     return this.http.get<OrderResponse>(`/api/v1/orders/${id}`);
+  }
+
+  getOrders(customerId: number): Observable<OrderPage> {
+    return this.http.get<OrderPage>('/api/v1/orders', {
+      params: { customerId, size: 50 },
+    });
   }
 }

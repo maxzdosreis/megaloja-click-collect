@@ -15,6 +15,10 @@
     <mat-icon>account_circle</mat-icon>
   </button>
   <mat-menu #userMenu="matMenu" xPosition="before">
+    <button mat-menu-item routerLink="/pedidos">
+      <mat-icon>receipt_long</mat-icon>
+      <span>Meus Pedidos</span>
+    </button>
     <button mat-menu-item (click)="logout()">
       <mat-icon>exit_to_app</mat-icon>
       <span>Sair</span>

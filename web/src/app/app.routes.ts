@@ -58,6 +58,13 @@ export const routes: Routes = [
           ).then(c => c.AcompanhamentoComponent),
       },
       {
+        path: 'pedidos',
+        loadComponent: () =>
+          import(
+            './features/orders/historico/historico.component'
+          ).then(c => c.HistoricoComponent),
+      },
+      {
         path: '',
         redirectTo: '/home',
         pathMatch: 'full',
