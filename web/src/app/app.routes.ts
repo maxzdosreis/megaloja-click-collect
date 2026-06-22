@@ -44,11 +44,11 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'pedido-confirmado/:id',
+        path: 'confirmacao/:id',
         loadComponent: () =>
           import(
-            './features/store/pedido-confirmado/pedido-confirmado.component'
-          ).then(c => c.PedidoConfirmadoComponent),
+            './features/store/confirmacao/confirmacao.component'
+          ).then(c => c.ConfirmacaoComponent),
       },
       {
         path: '',

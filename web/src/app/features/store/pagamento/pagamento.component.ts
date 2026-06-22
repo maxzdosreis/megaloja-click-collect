@@ -87,7 +87,7 @@ export class PagamentoComponent {
       next: response => {
         this.cartService.clearCart();
         this.loading.set(false);
-        this.router.navigate(['/pedido-confirmado', response.id]);
+        this.router.navigate(['/confirmacao', response.id]);
       },
       error: (err: HttpErrorResponse) => {
         this.errorMessage.set(

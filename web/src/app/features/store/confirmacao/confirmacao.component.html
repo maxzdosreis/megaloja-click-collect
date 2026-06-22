@@ -1,0 +1,95 @@
+<div class="confirmacao-page">
+  @if (loading()) {
+    <div class="loading-state">
+      <mat-icon class="spinner-icon">hourglass_empty</mat-icon>
+      <span>Carregando detalhes do pedido...</span>
+    </div>
+  } @else if (error() || !order()) {
+    <div class="error-state">
+      <mat-icon class="error-icon">error_outline</mat-icon>
+      <h2>Pedido não encontrado</h2>
+      <p>Não foi possível carregar as informações do pedido.</p>
+      <button mat-flat-button color="primary" routerLink="/home">
+        <mat-icon>storefront</mat-icon>
+        Voltar para Home
+      </button>
+    </div>
+  } @else {
+    <div class="success-section">
+      <div class="check-circle">
+        <mat-icon>check</mat-icon>
+      </div>
+      <h1 class="success-title">Pedido Realizado com Sucesso!</h1>
+    </div>
+
+    <mat-card class="details-card" appearance="outlined">
+      <mat-card-content>
+        <h2 class="details-title">Detalhes da Compra</h2>
+
+        <div class="detail-row">
+          <span class="detail-label">Nº do Pedido</span>
+          <span class="detail-value order-id">#{{ order()!.id }}</span>
+        </div>
+
+        <mat-divider class="detail-divider"></mat-divider>
+
+        <div class="detail-row">
+          <span class="detail-label">Loja de Retirada</span>
+          <span class="detail-value">{{ order()!.storeName }}</span>
+        </div>
+
+        <mat-divider class="detail-divider"></mat-divider>
+
+        <div class="detail-row">
+          <span class="detail-label">Código de Retirada</span>
+          <span class="detail-value pickup-code">{{ order()!.pickupCode }}</span>
+        </div>
+
+        <mat-divider class="detail-divider"></mat-divider>
+
+        <div class="detail-row">
+          <span class="detail-label">Previsão de Retirada</span>
+          <span class="detail-value">{{ getEstimatedTime() }}</span>
+        </div>
+
+        <mat-divider class="detail-divider"></mat-divider>
+
+        <div class="detail-row">
+          <span class="detail-label">Valor Total</span>
+          <span class="detail-value total-value">{{ order()!.totalAmount | currency:'BRL' }}</span>
+        </div>
+
+        <mat-divider class="detail-divider"></mat-divider>
+
+        <div class="detail-row">
+          <span class="detail-label">Status</span>
+          <span class="detail-value">
+            <span class="status-badge">{{ getStatusLabel(order()!.status) }}</span>
+          </span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="actions">
+      <button
+        mat-flat-button
+        color="primary"
+        class="track-btn"
+        [routerLink]="['/acompanhar', order()!.id]"
+      >
+        <mat-icon>timeline</mat-icon>
+        Acompanhar Pedido
+      </button>
+
+      <button
+        mat-stroked-button
+        color="primary"
+        class="home-btn"
+        routerLink="/home"
+      >
+        <mat-icon>storefront</mat-icon>
+        Voltar para Home
+      </button>
+    </div>
+  }
+</div>
