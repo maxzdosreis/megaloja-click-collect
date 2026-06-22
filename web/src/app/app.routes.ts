@@ -30,6 +30,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'entrega',
+        loadComponent: () =>
+          import('./features/store/entrega/entrega.component').then(
+            c => c.EntregaComponent
+          ),
+      },
+      {
         path: '',
         redirectTo: '/home',
         pathMatch: 'full',

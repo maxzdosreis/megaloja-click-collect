@@ -1,0 +1,97 @@
+<div class="entrega-page">
+  <header class="page-header">
+    <button mat-icon-button (click)="goBack()" aria-label="Voltar">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Entrega e Retirada</h1>
+  </header>
+
+  <div class="method-toggle">
+    <button
+      class="method-card"
+      [class.active]="cartService.selectedMethod() === 'delivery'"
+      (click)="selectMethod('delivery')"
+    >
+      <mat-icon>local_shipping</mat-icon>
+      <span class="method-label">Entrega</span>
+    </button>
+    <button
+      class="method-card"
+      [class.active]="cartService.selectedMethod() === 'pickup'"
+      (click)="selectMethod('pickup')"
+    >
+      <mat-icon>storefront</mat-icon>
+      <span class="method-label">Retirada na Loja</span>
+      @if (cartService.selectedMethod() === 'pickup') {
+        <mat-icon class="check-badge">check_circle</mat-icon>
+      }
+    </button>
+  </div>
+
+  @if (cartService.selectedMethod() === 'delivery') {
+    <div class="placeholder-section">
+      <mat-icon class="placeholder-icon">local_shipping</mat-icon>
+      <h2>Entrega em domicílio</h2>
+      <p>Funcionalidade em breve. No momento, oferecemos apenas retirada na loja.</p>
+      <button mat-stroked-button color="primary" (click)="selectMethod('pickup')">
+        Ver lojas disponíveis
+      </button>
+    </div>
+  }
+
+  @if (cartService.selectedMethod() === 'pickup') {
+    <section class="stores-section">
+      <h2 class="section-title">Lojas disponíveis</h2>
+
+      @if (loading()) {
+        <div class="loading-state">
+          <mat-icon class="spinner-icon">hourglass_empty</mat-icon>
+          <span>Carregando lojas...</span>
+        </div>
+      } @else {
+        <div class="stores-grid">
+          @for (store of stores(); track store.id) {
+            <mat-card
+              class="store-card"
+              [class.selected]="cartService.selectedStore()?.id === store.id"
+              (click)="selectStore(store)"
+              appearance="outlined"
+            >
+              <mat-card-content>
+                <div class="store-header">
+                  <mat-icon class="store-icon">store</mat-icon>
+                  <h3 class="store-name">{{ store.name }}</h3>
+                  @if (cartService.selectedStore()?.id === store.id) {
+                    <mat-icon class="selected-check">check_circle</mat-icon>
+                  }
+                </div>
+                <p class="store-address">{{ store.address }}</p>
+                <p class="store-city">{{ store.city }}, {{ store.state }}</p>
+                <div class="store-hours">
+                  <mat-icon>schedule</mat-icon>
+                  <span>{{ getStoreHours(store.id) }}</span>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          } @empty {
+            <div class="empty-state">
+              <mat-icon>store</mat-icon>
+              <span>Nenhuma loja disponível no momento</span>
+            </div>
+          }
+        </div>
+      }
+    </section>
+  }
+
+  <div class="action-bar">
+    <button
+      mat-flat-button
+      color="primary"
+      class="action-btn"
+      [disabled]="cartService.selectedMethod() === 'pickup' && !cartService.selectedStore()"
+    >
+      Continuar para Pagamento
+    </button>
+  </div>
+</div>
