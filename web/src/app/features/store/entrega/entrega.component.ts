@@ -7,11 +7,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { CartService, DeliveryMethod } from '../../../core/services/cart.service';
 import { StoreService } from '../../../core/services/store.service';
 import { Store } from '../../../core/models/store';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-entrega',
   standalone: true,
   imports: [
+    RouterLink,
     MatCardModule,
     MatButtonModule,
     MatIconModule,

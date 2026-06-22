@@ -1,0 +1,75 @@
+<div class="pagamento-page">
+  <header class="page-header">
+    <button mat-icon-button (click)="goBack()" aria-label="Voltar">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Meio de Pagamento</h1>
+  </header>
+
+  <section class="payment-section">
+    <h2 class="section-title">Forma de Pagamento</h2>
+
+    <div class="payment-list">
+      @for (method of paymentMethods; track method.id) {
+        <button
+          class="payment-card"
+          [class.selected]="selectedPayment() === method.id"
+          (click)="selectPayment(method.id)"
+          type="button"
+        >
+          <mat-icon [class.pix-icon]="method.id === 'pix'">{{ method.icon }}</mat-icon>
+          <span class="payment-label">{{ method.label }}</span>
+          <div class="radio-circle" [class.selected]="selectedPayment() === method.id"></div>
+        </button>
+      }
+    </div>
+  </section>
+
+  @if (errorMessage()) {
+    <div class="error-banner">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ errorMessage() }}</span>
+    </div>
+  }
+
+  <section class="summary-section">
+    <mat-card class="summary-card" appearance="outlined">
+      <mat-card-content>
+        <h2 class="summary-title">Resumo do Pedido</h2>
+        <div class="summary-row">
+          <span>Itens</span>
+          <span class="summary-value">{{ cartService.itemsCount() }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Retirada</span>
+          <span class="summary-value">{{ cartService.selectedStore()?.name || '-' }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Tipo</span>
+          <span class="summary-value">Retirada na Loja</span>
+        </div>
+        <mat-divider class="summary-divider"></mat-divider>
+        <div class="summary-row total-row">
+          <span>Total</span>
+          <span class="summary-value total-value">{{ total() | currency:'BRL' }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </section>
+
+  <div class="action-bar">
+    <button
+      mat-flat-button
+      color="primary"
+      class="action-btn"
+      [disabled]="loading() || cartService.cartItems().length === 0"
+      (click)="finalizarPedido()"
+    >
+      @if (loading()) {
+        <mat-spinner diameter="20"></mat-spinner>
+      } @else {
+        Finalizar Pedido
+      }
+    </button>
+  </div>
+</div>

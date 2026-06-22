@@ -1,0 +1,18 @@
+<div class="confirmado-page">
+  <mat-card class="confirmado-card">
+    <mat-card-content class="confirmado-content">
+      <mat-icon class="success-icon">check_circle</mat-icon>
+      <h1>Pedido Confirmado!</h1>
+      <p class="order-id-label">Nº do pedido</p>
+      <p class="order-id">#{{ orderId }}</p>
+      <p class="info-text">
+        Seu pedido foi registrado com sucesso.<br />
+        Você receberá as informações de retirada em breve.
+      </p>
+      <button mat-flat-button color="primary" routerLink="/home" class="home-btn">
+        <mat-icon>storefront</mat-icon>
+        Voltar para Home
+      </button>
+    </mat-card-content>
+  </mat-card>
+</div>
