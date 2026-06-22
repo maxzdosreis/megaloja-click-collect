@@ -1,6 +1,9 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { Product } from '../models/product';
 import { CartItem } from '../models/cart-item';
+import { Store } from '../models/store';
+
+export type DeliveryMethod = 'delivery' | 'pickup';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
@@ -38,5 +41,21 @@ export class CartService {
 
   clearCart(): void {
     this.items.set([]);
+  }
+
+  readonly selectedMethod = signal<DeliveryMethod>('pickup');
+
+  readonly selectedStore = signal<Store | null>(null);
+
+  setDeliveryMethod(method: DeliveryMethod): void {
+    this.selectedMethod.set(method);
+    if (method === 'delivery') {
+      this.selectedStore.set(null);
+    }
+  }
+
+  setSelectedStore(store: Store): void {
+    this.selectedStore.set(store);
+    this.selectedMethod.set('pickup');
   }
 }
