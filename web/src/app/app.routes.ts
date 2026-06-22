@@ -37,6 +37,20 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'pagamento',
+        loadComponent: () =>
+          import('./features/store/pagamento/pagamento.component').then(
+            c => c.PagamentoComponent
+          ),
+      },
+      {
+        path: 'pedido-confirmado/:id',
+        loadComponent: () =>
+          import(
+            './features/store/pedido-confirmado/pedido-confirmado.component'
+          ).then(c => c.PedidoConfirmadoComponent),
+      },
+      {
         path: '',
         redirectTo: '/home',
         pathMatch: 'full',

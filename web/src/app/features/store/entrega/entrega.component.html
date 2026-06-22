@@ -90,6 +90,7 @@
       color="primary"
       class="action-btn"
       [disabled]="cartService.selectedMethod() === 'pickup' && !cartService.selectedStore()"
+      routerLink="/pagamento"
     >
       Continuar para Pagamento
     </button>

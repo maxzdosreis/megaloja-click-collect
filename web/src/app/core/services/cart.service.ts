@@ -58,4 +58,10 @@ export class CartService {
     this.selectedStore.set(store);
     this.selectedMethod.set('pickup');
   }
+
+  readonly selectedPayment = signal<string>('pix');
+
+  setSelectedPayment(method: string): void {
+    this.selectedPayment.set(method);
+  }
 }
