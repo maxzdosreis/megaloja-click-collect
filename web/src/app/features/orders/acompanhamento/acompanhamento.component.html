@@ -1,0 +1,97 @@
+<div class="acompanhamento-page">
+  <header class="page-header">
+    <button mat-icon-button (click)="goBack()" aria-label="Voltar">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Acompanhamento do Pedido</h1>
+  </header>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <mat-icon class="spinner-icon">hourglass_empty</mat-icon>
+      <span>Carregando pedido...</span>
+    </div>
+  } @else if (error() || !order()) {
+    <div class="error-state">
+      <mat-icon>error_outline</mat-icon>
+      <h2>Pedido não encontrado</h2>
+      <button mat-flat-button color="primary" routerLink="/home">
+        <mat-icon>storefront</mat-icon>
+        Voltar para Home
+      </button>
+    </div>
+  } @else {
+    <div class="order-header">
+      <h2 class="order-id">Pedido #{{ order()!.id }}</h2>
+      <div class="order-meta">
+        <span class="meta-item">
+          <mat-icon>store</mat-icon>
+          {{ order()!.storeName }}
+        </span>
+        <span class="meta-item">
+          <mat-icon>qr_code</mat-icon>
+          Cód: {{ order()!.pickupCode }}
+        </span>
+      </div>
+    </div>
+
+    @if (isCanceled()) {
+      <mat-card class="canceled-card" appearance="outlined">
+        <mat-card-content>
+          <mat-icon class="canceled-icon">cancel</mat-icon>
+          <div>
+            <h3>Pedido Cancelado</h3>
+            <p>Este pedido foi cancelado e não poderá ser retirado.</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    } @else {
+      <div class="timeline">
+        @for (step of steps; track step.status; let i = $index) {
+          <div
+            class="timeline-step"
+            [class.completed]="isCompleted(i)"
+            [class.active]="isActive(i)"
+          >
+            <div
+              class="step-node"
+              [class.completed]="isCompleted(i)"
+              [class.active]="isActive(i)"
+              [class.pending]="!isCompleted(i) && !isActive(i)"
+            >
+              @if (isCompleted(i)) {
+                <mat-icon>check</mat-icon>
+              } @else {
+                <mat-icon>{{ step.icon }}</mat-icon>
+              }
+            </div>
+
+            <div class="step-content">
+              <h3 class="step-label">{{ step.label }}</h3>
+              <p class="step-description">{{ step.description }}</p>
+              @if (isCompleted(i)) {
+                <span class="step-date">
+                  {{ order()!.createdAt | date:'dd/MM/yyyy HH:mm' }}
+                </span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      @if (isDelivered()) {
+        <div class="delivered-badge">
+          <mat-icon>verified</mat-icon>
+          <span>Pedido finalizado</span>
+        </div>
+      }
+    }
+
+    <div class="actions">
+      <button mat-stroked-button color="primary" class="home-btn" routerLink="/home">
+        <mat-icon>storefront</mat-icon>
+        Voltar para Home
+      </button>
+    </div>
+  }
+</div>

@@ -65,7 +65,14 @@ export class PagamentoComponent {
   }
 
   finalizarPedido(): void {
-    if (this.cartService.cartItems().length === 0 || !this.cartService.selectedStore()) return;
+    if (this.cartService.cartItems().length === 0) {
+      this.errorMessage.set('Seu carrinho está vazio.');
+      return;
+    }
+    if (!this.cartService.selectedStore()) {
+      this.errorMessage.set('Selecione uma loja para retirada antes de finalizar.');
+      return;
+    }
 
     this.loading.set(true);
     this.errorMessage.set('');
