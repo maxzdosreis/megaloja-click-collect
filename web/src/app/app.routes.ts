@@ -51,6 +51,13 @@ export const routes: Routes = [
           ).then(c => c.ConfirmacaoComponent),
       },
       {
+        path: 'acompanhar/:id',
+        loadComponent: () =>
+          import(
+            './features/orders/acompanhamento/acompanhamento.component'
+          ).then(c => c.AcompanhamentoComponent),
+      },
+      {
         path: '',
         redirectTo: '/home',
         pathMatch: 'full',

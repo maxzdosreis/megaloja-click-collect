@@ -62,7 +62,7 @@
       mat-flat-button
       color="primary"
       class="action-btn"
-      [disabled]="loading() || cartService.cartItems().length === 0"
+      [disabled]="loading() || cartService.cartItems().length === 0 || !cartService.selectedStore()"
       (click)="finalizarPedido()"
     >
       @if (loading()) {
